@@ -1,0 +1,34 @@
+1. 
+	1. int i = 10;
+	2. int j = i++; -> j = 10 , i = 11
+	3. int c = --j; -> c = 9 , j = 9
+	4. i = ++c;     -> c = 10 , i = 10
+=> i = 10
+
+2. 
+	Der Datentyp int wäre am besten geeignet, um einfache Vergleiche mit den Vergleichsoperatoren <,>,<=,>= 
+	zwischen den einzelnen meteorologischen Jahreszeiten (in Abhängigkeit vom Monat) machen zu können. 
+	
+3. q = true , w = false, t = true
+
+	!(q || w) && t || !w ^ !q
+	=> ((!(q||w)) && t) || (!w ^ !q)
+	1. !(q||w)			-> false
+	2. !(q||w) && t			-> false
+	3. (!w ^ !q)			-> true
+	4. !(q||w) && t || !w ^ !q	-> true
+
+=> Der Ausdruck ist true
+
+4. 2^5 
+	10 XOR 101 -> 111 
+=> 7
+
+5. Geg.: a = 200,1, b = 600,1, c = 300,1, d = 400,1, a*b - c*d
+
+	a) 9.999999999985448
+	b) 9.9921875
+	c) 10
+
+	Die Ursache des Unterschieds liegt in der Genauigkeit von doubles und floats,
+	da sie durch ihre Speichergrößen (double belegt 64bit und float 32bit) beschränkt sind. 
