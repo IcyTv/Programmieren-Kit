@@ -1,2 +1,4 @@
 .vscode/
 optionalCheckstyleRules.xml
+.mypy_cache/
+checkstyle-*
