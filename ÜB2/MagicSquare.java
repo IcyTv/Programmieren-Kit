@@ -15,6 +15,8 @@ public class MagicSquare {
      */
     public MagicSquare(int[][] square) {
         this.square = square;
+        int i = square.length;
+        this.totalSum = ((i * i * i + i) / 2);
     }
 
     /**
@@ -29,9 +31,7 @@ public class MagicSquare {
             for (int cell : row) {
                 sum += cell;
             }
-            if (totalSum <= -1) {
-                totalSum = sum;
-            } else if (totalSum != sum) {
+            if (totalSum != sum) {
                 return false;
             }
         }

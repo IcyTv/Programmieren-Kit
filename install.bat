@@ -9,7 +9,6 @@ echo @echo off >> %path%\checkstyle.bat
 echo python3 %path%\checkstyle.py %%* >> %path%\checkstyle.bat
 copy .\checkstyle.py %path%
 %SystemRoot%\system32\SETX.exe PATH "%PATH%";"%path%";
-
 :NORMALIZEPATH
   SET RETVAL=%~f1
   EXIT /B

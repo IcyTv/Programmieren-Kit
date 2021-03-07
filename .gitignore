@@ -2,3 +2,4 @@
 optionalCheckstyleRules.xml
 .mypy_cache/
 checkstyle-*
+*.class
