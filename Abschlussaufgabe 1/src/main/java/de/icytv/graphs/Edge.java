@@ -13,7 +13,7 @@ public class Edge implements Comparable<Edge> {
         this.startNode = startNode;
         this.endNode = endNode;
         this.flow = flow;
-
+        this.capacity = capacity;
     }
 
     public Edge(Node startNode, Node endNode, int capacity) {
@@ -54,7 +54,7 @@ public class Edge implements Comparable<Edge> {
 
     public Edge copy() {
         return new Edge(this.startNode, this.endNode, this.flow, this.capacity);
-    }    
+    }
 
     public Edge reverse() {
         return new Edge(this.endNode, this.startNode, 0, 0);
@@ -62,13 +62,13 @@ public class Edge implements Comparable<Edge> {
 
     @Override
     public int compareTo(Edge o) {
-        return this.getStartNode().getId().compareTo(o.getStartNode().getId()) 
-            + this.getStartNode().getId().compareTo(o.getStartNode().getId());
+        return this.getStartNode().getId().compareTo(o.getStartNode().getId())
+                + this.getStartNode().getId().compareTo(o.getStartNode().getId());
     }
 
     @Override
     public String toString() {
-        return this.startNode.getId() +  this.capacity +  this.getEndNode().getId();
+        return this.startNode.getId() + this.capacity + this.getEndNode().getId();
     }
-    
+
 }

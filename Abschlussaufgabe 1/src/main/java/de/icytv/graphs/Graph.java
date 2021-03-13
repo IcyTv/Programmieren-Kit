@@ -31,6 +31,16 @@ public class Graph {
 
     public void addEdge(Edge edge) {
         this.edges.add(edge);
+
+        Node startNode = edge.getStartNode();
+        if (this.nodes.indexOf(startNode) < 0) {
+            this.nodes.add(startNode);
+        }
+
+        Node endNode = edge.getEndNode();
+        if (this.nodes.indexOf(endNode) < 0) {
+            this.nodes.add(endNode);
+        }
     }
 
     public ArrayList<Node> getNodes() {
@@ -45,5 +55,9 @@ public class Graph {
         return this.nodes.size();
     }
 
-    
+    public Graph() {
+        this.edges = new ArrayList<Edge>();
+        this.nodes = new ArrayList<Node>();
+    }
+
 }

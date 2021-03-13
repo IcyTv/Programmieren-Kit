@@ -1,6 +1,7 @@
 package de.icytv;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.icytv.graphs.Edge;
+import de.icytv.graphs.EdmondsKarpAlgorithm;
 import de.icytv.graphs.EscapeRouteNetwork;
 import de.icytv.graphs.Graph;
 import de.icytv.graphs.Node;
@@ -20,31 +22,44 @@ public final class CommandHandler {
     private static HashMap<String, Integer> flows = new HashMap<String, Integer>();
 
     public static void handle(String command) {
-        String[] split = command.split(" ", 1);
+        String[] split = command.split(" ", 2);
+        System.out.println(Arrays.toString(split));
 
         if (split.length == 1) {
             split = new String[] { split[0], "" };
         }
 
         switch (split[0]) {
-            case "add":
-                add(split[1]);
-                break;
-            case "list":
-                list(split[1]);
-                break;
-            case "print":
-                print(split[1]);
-                break;
-            default:
-                Terminal.printError("Not a valid command");
+        case "add":
+            add(split[1]);
+            break;
+        case "list":
+            list(split[1]);
+            break;
+        case "print":
+            print(split[1]);
+            break;
+        case "flow":
+            flow(split[1]);
+            break;
+        default:
+            Terminal.printError("Not a valid command");
         }
     }
 
     private static Edge getEdge(String edge) {
+        System.out.println("Getting edge " + edge);
         Matcher edgeIdMatcher = edgeId.matcher(edge);
-        String startId = edgeIdMatcher.group(0);
-        String endId = edgeIdMatcher.group(1);
+        // while (edgeIdMatcher.find()) {
+        // // Get the matching string
+        // String match = edgeIdMatcher.group();
+        // System.out.println(match);
+        // }
+        System.out.println(edgeIdMatcher);
+        edgeIdMatcher.find();
+        String startId = edgeIdMatcher.group();
+        edgeIdMatcher.find();
+        String endId = edgeIdMatcher.group();
 
         int capacity = Integer.parseInt(edge.replace(startId, "").replace(endId, ""));
 
@@ -97,25 +112,24 @@ public final class CommandHandler {
                 Terminal.printLine(network.getId() + " " + network.size());
             }
         } else {
-            //TODO regex
+            // TODO regex
             ArrayList<Map.Entry<String, Integer>> flowRates = new ArrayList<Map.Entry<String, Integer>>();
 
-            for(Map.Entry<String, Integer> entry: flows.entrySet()) {
+            for (Map.Entry<String, Integer> entry : flows.entrySet()) {
 
-                
-                if(entry.getKey().startsWith(argument)) {
+                if (entry.getKey().startsWith(argument)) {
                     flowRates.add(entry);
                 }
             }
 
-            if(flowRates.size() == 0) {
+            if (flowRates.size() == 0) {
                 Terminal.printLine("EMPTY");
                 return;
             }
 
             flowRates.sort(Entry.comparingByValue());
 
-            for(Map.Entry<String, Integer> entry: flowRates) {
+            for (Map.Entry<String, Integer> entry : flowRates) {
                 String[] split = entry.getKey().split(";"); // Network ID, Start node ID, End node ID
                 Terminal.printLine(split[1] + entry.getValue() + split[2]);
             }
@@ -131,10 +145,19 @@ public final class CommandHandler {
     }
 
     public static void flow(String arguments) {
-        //TODO Regex
+        // TODO Regex
         String[] split = arguments.split(" ");
         String networkId = split[0];
         String startNode = split[1];
         String endNode = split[2];
+
+        if (flows.containsKey(networkId + ";" + startNode + ";" + endNode)) {
+            Terminal.printLine(flows.get(networkId + ";" + startNode + ";" + endNode));
+        } else {
+            EscapeRouteNetwork network = escapeRouteNetworks.get(networkId);
+            int flow = EdmondsKarpAlgorithm.run(network, startNode, endNode);
+            flows.put(networkId + ";" + startNode + ";" + endNode, flow);
+            Terminal.printLine(flow);
+        }
     }
 }
